@@ -1,0 +1,5 @@
+﻿# Created by .ignore support plugin (hsz.mobi)
+.git
+.idea
+bin/
+obj/
