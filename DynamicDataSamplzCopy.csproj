@@ -9,9 +9,39 @@
     <ItemGroup>
       <PackageReference Include="DynamicData" Version="6.16.2" />
       <PackageReference Include="MahApps.Metro" Version="2.1.1" />
+      <PackageReference Include="MahApps.Metro.IconPacks" Version="4.4.0" />
+      <PackageReference Include="MahApps.Metro.IconPacks.Modern" Version="4.4.0" />
       <PackageReference Include="MaterialDesignColors" Version="1.2.6" />
       <PackageReference Include="MaterialDesignThemes" Version="3.1.3" />
       <PackageReference Include="System.Reactive" Version="4.4.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Page Update="Examples\SelectableItemsView.xaml">
+        <Generator></Generator>
+      </Page>
+      <Page Update="Examples\AggregationView.xaml">
+        <Generator></Generator>
+      </Page>
+      <Page Update="Examples\FilterObservableView.xaml">
+        <Generator></Generator>
+      </Page>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Examples\SelectableItemsView.xaml.cs">
+        <DependentUpon>SelectableItemsView.xaml</DependentUpon>
+      </Compile>
+      <Compile Update="Examples\AggregationView.xaml.cs">
+        <DependentUpon>AggregationView.xaml</DependentUpon>
+      </Compile>
+      <Compile Update="Examples\FilterObservableView.xaml.cs">
+        <DependentUpon>FilterObservableView.xaml</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Domain" />
     </ItemGroup>
 
 </Project>

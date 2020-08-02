@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DynamicDataSamplzCopy.Infrastructure;
 using MahApps.Metro.Controls;
 
 namespace DynamicDataSamplzCopy
@@ -24,6 +25,7 @@ namespace DynamicDataSamplzCopy
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new SelectableItemCollection();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using DynamicData;
 using DynamicData.Binding;
@@ -32,15 +33,20 @@ namespace DynamicDataSamplzCopy.Examples
                 .ObserveOnDispatcher()
                 .Bind(out _selected)
                 .Subscribe();
-            
+
             var notSelectedLoader = viewModels
-                .FilterOnProperty(vm => vm.IsSelected,vm=>vm.IsSelected)
-                .Sort(SortExpressionComparer<SimpleItemViewModel>.Ascending(vm=>))
+                .FilterOnProperty(vm => vm.IsSelected, vm => !vm.IsSelected)
+                .Sort(SortExpressionComparer<SimpleItemViewModel>.Ascending(vm => vm.Number))
+                .ObserveOnDispatcher()
+                .Bind(out _notSelected)
+                .Subscribe();
+            
+            _cleanUp = new CompositeDisposable(sourceList,selectedLoader,notSelectedLoader,viewModels.Connect());
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _cleanUp.Dispose();
         }
     }
 

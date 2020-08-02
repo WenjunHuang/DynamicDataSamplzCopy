@@ -5,21 +5,136 @@
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                       xmlns:local="clr-namespace:DynamicDataSamplzCopy"
+                      xmlns:infrastructure="clr-namespace:DynamicDataSamplzCopy.Infrastructure"
                       mc:Ignorable="d"
-                      Title="MainWindow" Height="450" Width="800"
+                      Title="Dynamic Data Samplz" Height="450" Width="800"
                       TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-                      >
+                      Background="{DynamicResource MaterialDesignPaper}"
+                      TextElement.FontWeight="Regular"
+                      TextElement.FontSize="12"
+                      TextOptions.TextFormattingMode="Ideal"
+                      TextOptions.TextRenderingMode="Auto"
+                      NonActiveWindowTitleBrush="{DynamicResource WindowTitleColorBrush}"
+                      WindowTitleBrush="{DynamicResource WindowTitleColorBrush}"
+                      GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
+                      WindowStartupLocation="CenterScreen"
+                      d:DataContext="{d:DesignInstance infrastructure:SelectableItemCollection}">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Font.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ListBox.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Font.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ListBox.xaml" />
+                <ResourceDictionary
+                    Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
+    <controls:MetroWindow.LeftWindowCommands>
+        <controls:WindowCommands>
+            <Button ToolTip="Open Github">
+                <iconPacks:PackIconModern Width="22"
+                                          Height="22"
+                                          Kind="SocialGithubOctocat" />
+            </Button>
+        </controls:WindowCommands>
+    </controls:MetroWindow.LeftWindowCommands>
 
-    <Grid />
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
+            <Button Content="Deploy CupCakes">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconModern Width="22"
+                                                      Height="22"
+                                                      VerticalAlignment="Center"
+                                                      Kind="FoodCupcake" />
+                            <TextBlock Margin="4 0 0 0"
+                                       VerticalAlignment="Center"
+                                       Text="{Binding}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <materialDesign:ColorZone Mode="PrimaryMid" Grid.ColumnSpan="2"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalAlignment="Stretch">
+            <TextBlock Margin="4 8 4 4"
+                       TextWrapping="Wrap"
+                       Style="{DynamicResource MaterialDesignHeadline6TextBlock}"
+                       Text="Dynamic Data Getting Started Examples" />
+        </materialDesign:ColorZone>
+
+        <Grid Grid.Row="1" Margin="8 4 8 4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Margin="4 4 4 0" Grid.Column="0"
+                       TextWrapping="Wrap"
+                       Style="{DynamicResource MaterialDesignSubtitle2TextBlock}"
+                       Text="Select Example:" />
+            <TextBlock Margin="4 4 4 0"
+                       Grid.Column="1"
+                       Grid.Row="0"
+                       TextWrapping="Wrap"
+                       Style="{DynamicResource MaterialDesignSubtitle2TextBlock}"
+                       Text="{Binding SelectedItem.Description,ElementName=Selector}" />
+
+            <ListBox x:Name="Selector" Margin="4 4 4 0" Grid.Row="1"
+                     Grid.Column="0" SelectedIndex="0" ItemsSource="{Binding Items}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Title}" Margin="4 0 4 0" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <Grid Grid.Row="1" Grid.Column="1" Margin="0 0 6 4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <materialDesign:Transitioner ItemsSource="{Binding Items}"
+                                             SelectedIndex="{Binding SelectedIndex,ElementName=Selector}">
+                    <materialDesign:Transitioner.ItemTemplate>
+                        <DataTemplate DataType="{x:Type infrastructure:SampleItem}">
+                            <materialDesign:Card Margin="4">
+                                <ContentControl Content="{Binding Content}" />
+                            </materialDesign:Card>
+                        </DataTemplate>
+                    </materialDesign:Transitioner.ItemTemplate>
+                </materialDesign:Transitioner>
+
+                <TextBlock Grid.Row="1"
+                           Margin="4 0 0 0"
+                           DataContext="{Binding SelectedItem, ElementName=Selector}">
+                    <Run>Click to view code</Run>
+                    <Hyperlink NavigateUri="{Binding CodeFileUrl}" infrastructure:HyperlinkExtensions.IsExternal="true">
+                        <TextBlock Text="{Binding CodeFileDisplay}" />
+                    </Hyperlink>
+                </TextBlock>
+            </Grid>
+        </Grid>
+    </Grid>
 </controls:MetroWindow>
